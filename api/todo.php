@@ -34,8 +34,9 @@ try {
             $data = json_decode($json);
             $todo = new Todo($data->id, $data->title, $data->description);
             $controller->create($todo);
-            break;
             
+            break;
+
         case 'PUT':
             //implement your code here
             break;

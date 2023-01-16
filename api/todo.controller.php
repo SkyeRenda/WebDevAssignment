@@ -34,11 +34,15 @@ class TodoController {
 
     public function create(Todo $todo) : bool {
         // implement your code here
+        array_push($this->todos, $todo);
+        $jsonData = json_encode($this->todos);
+        file_put_contents(self::PATH, $jsonData);
         return true;
     }
 
     public function update(string $id, Todo $todo) : bool {
         // implement your code here
+
         return true;
     }
 
