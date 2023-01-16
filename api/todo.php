@@ -1,6 +1,7 @@
 <?php
 try {
     require_once("todo.controller.php");
+    require_once("todo.class.php");
     
     $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $path = explode( '/', $uri);
@@ -28,7 +29,13 @@ try {
             break;
         case 'POST':
             //implement your code here
+            
+            $json = file_get_contents("php://input");
+            $data = json_decode($json);
+            $todo = new Todo($data->id, $data->title, $data->description);
+            $controller->create($todo);
             break;
+            
         case 'PUT':
             //implement your code here
             break;
