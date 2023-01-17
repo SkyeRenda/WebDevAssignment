@@ -32,16 +32,46 @@ try {
             
             $json = file_get_contents("php://input");
             $data = json_decode($json);
-            $todo = new Todo($data->id, $data->title, $data->description);
-            $controller->create($todo);
+            if ($data){
+                $todo = new Todo($data->id, $data->title, $data->description);
+                $controller->create($todo);
+                http_response_code(200);
+                die(json_encode("Successfully created new ToDo"));
+            }else {
+                http_response_code(501);
+                die();
+            }
             
             break;
 
         case 'PUT':
             //implement your code here
+            $json = file_get_contents("php://input");
+            $data = json_decode($json);
+            if ($data){
+                $todo = new Todo($data->id, $data->title, $data->description, $data->$done);
+                $controller->update($todo->id, $todo);
+                http_response_code(200);
+                die(json_encode("Successfully updated ToDo"));
+            }else {
+                http_response_code(501);
+            die();
+            }
+
             break;
+
         case 'DELETE':
             //implement your code here
+            $json = file_get_contents("php://input");
+            $data = json_decode($json);
+            if ($data){
+                $controller->delete($data->id);
+                http_response_code(200);
+                die(json_encode("Successfully deleted ToDo"));
+            }else {
+                http_response_code(501);
+                die(json_encode("Failed to delete ToDo"));
+            }
             break;
         default:
             http_response_code(501);

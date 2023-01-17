@@ -34,22 +34,43 @@ class TodoController {
 
     public function create(Todo $todo) : bool {
         // implement your code here
-        array_push($this->todos, $todo);
-        $jsonData = json_encode($this->todos);
-        file_put_contents(self::PATH, $jsonData);
-        return true;
+        try{
+            array_push($this->todos, $todo);
+            $this->writeToJsonFile();
+            return true;
+        } 
+        catch(Exception $e){
+            return false;
+        }
     }
 
     public function update(string $id, Todo $todo) : bool {
         // implement your code here
-
-        return true;
+        try {
+            $index = array_search(array('id' => $id), $this->todos);
+            $this->todos[$index] = $todo;
+            $this->writeToJsonFile();
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }      
     }
 
     public function delete(string $id) : bool {
         // implement your code here
-        return true;
+        try {
+            $index = array_search(array('id' => $id), $this->todos);
+            unset($this->todos, $index);
+            $this->writeToJsonFile();
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     // add any additional functions you need below
+    private function writeToJsonFile(){
+        $jsonData = json_encode($this->todos);
+        file_put_contents(self::PATH, $jsonData);
+    }
 }
